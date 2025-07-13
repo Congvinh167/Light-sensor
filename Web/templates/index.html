@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Light Intensity</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- ✅ Include Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- ✅ Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #eef2f3, #cfd9df);
+            padding-top: 80px;
+        }
+
+        .card {
+            max-width: 400px;
+            margin: auto;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .lux-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #007acc;
+        }
+
+        .icon {
+            font-size: 4rem;
+            color: #f9a825;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card p-4">
+            <div class="card-body">
+                <div class="icon">🌞</div>
+                <h3 class="card-title mt-3">Current Light Intensity</h3>
+                <p id="value" class="lux-value">Loading...</p>
+                <p class="text-muted">Updated every 2 seconds</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ JavaScript to fetch data -->
+    <script>
+        async function fetchLight() {
+            try {
+                const response = await fetch('/light');
+                const data = await response.json();
+                document.getElementById("value").innerText = data.lux + " lux";
+            } catch (err) {
+                document.getElementById("value").innerText = "Error";
+            }
+        }
+
+        setInterval(fetchLight, 2000);
+        window.onload = fetchLight;
+    </script>
+</body>
+</html>
